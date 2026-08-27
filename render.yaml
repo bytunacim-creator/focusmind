@@ -9,3 +9,5 @@ services:
     envVars:
       - key: FRONTEND_ORIGIN
         value: "*"
+      - key: PYTHON_VERSION
+        value: "3.11.9"
