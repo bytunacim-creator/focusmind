@@ -1,0 +1,32 @@
+{
+  "formula": "median_rt ~ screen_time_within + screen_time_between",
+  "params": {
+    "Intercept": 352.183885226671,
+    "screen_time_within": 0.044136258271947504,
+    "screen_time_between": 0.11643100720591484,
+    "Group Var": 17.636400566727136
+  },
+  "pvalues": {
+    "Intercept": 3.423555827620497e-06,
+    "screen_time_within": 1.1630426219222349e-07,
+    "screen_time_between": 0.7327103094424066,
+    "Group Var": 0.0003986791656797079
+  },
+  "conf_int": {
+    "0": {
+      "Intercept": 203.53528682648448,
+      "screen_time_within": 0.02781203961875163,
+      "screen_time_between": -0.5517551777090375,
+      "Group Var": 7.8744311535520755
+    },
+    "1": {
+      "Intercept": 500.83248362685754,
+      "screen_time_within": 0.06046047692514338,
+      "screen_time_between": 0.7846171921208671,
+      "Group Var": 27.3983699799022
+    }
+  },
+  "n_obs": 300,
+  "n_groups": 30,
+  "converged": true
+}
