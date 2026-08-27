@@ -21,9 +21,12 @@ function randomIsi() {
   return MIN_ISI_MS + Math.random() * (MAX_ISI_MS - MIN_ISI_MS);
 }
 
+const TOTAL_TRIALS = N_PRACTICE + N_TRIALS;
+
 export default function ReactionTimeTest({ onComplete }) {
   const [phase, setPhase] = useState("instructions"); // instructions | running | done
   const [showStimulus, setShowStimulus] = useState(false);
+  const [trialsDone, setTrialsDone] = useState(0);
   const trialsRef = useRef([]);
   const trialIndexRef = useRef(0);
   const stimulusOnsetRef = useRef(null);
@@ -80,6 +83,7 @@ export default function ReactionTimeTest({ onComplete }) {
     trialsRef.current.push(trial);
     setShowStimulus(false);
     trialIndexRef.current += 1;
+    setTrialsDone(trialIndexRef.current);
 
     const totalTrials = N_PRACTICE + N_TRIALS;
     if (trialIndexRef.current >= totalTrials) {
@@ -124,15 +128,18 @@ export default function ReactionTimeTest({ onComplete }) {
 
   if (phase === "running") {
     return (
-      <div
-        onClick={handleResponse}
-        style={{ height: 300, display: "flex", alignItems: "center", justifyContent: "center" }}
-      >
-        {showStimulus ? (
-          <div style={{ width: 80, height: 80, borderRadius: "50%", background: "#2b6cb0" }} />
-        ) : (
-          <p>Hazır olun...</p>
-        )}
+      <div>
+        <p>Deneme {trialsDone + 1} / {TOTAL_TRIALS}</p>
+        <div
+          onClick={handleResponse}
+          style={{ height: 300, display: "flex", alignItems: "center", justifyContent: "center" }}
+        >
+          {showStimulus ? (
+            <div style={{ width: 80, height: 80, borderRadius: "50%", background: "#2b6cb0" }} />
+          ) : (
+            <p>Hazır olun...</p>
+          )}
+        </div>
       </div>
     );
   }

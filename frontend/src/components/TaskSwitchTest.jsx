@@ -42,11 +42,14 @@ function randomIsi() {
 
 const COLOR_HEX = { red: "#dc2626", blue: "#2563eb" };
 
+const TOTAL_TRIALS = N_PRACTICE + N_TRIALS;
+
 export default function TaskSwitchTest({ onComplete }) {
   const [phase, setPhase] = useState("instructions"); // instructions | running | done
   const [showStimulus, setShowStimulus] = useState(false);
   const [currentRule, setCurrentRule] = useState(null);
   const [currentStimulus, setCurrentStimulus] = useState(null);
+  const [trialsDone, setTrialsDone] = useState(0);
 
   const ruleSequenceRef = useRef(buildRuleSequence(N_PRACTICE + N_TRIALS));
   const trialsRef = useRef([]);
@@ -122,6 +125,7 @@ export default function TaskSwitchTest({ onComplete }) {
 
     setShowStimulus(false);
     trialIndexRef.current += 1;
+    setTrialsDone(trialIndexRef.current);
 
     if (trialIndexRef.current >= N_PRACTICE + N_TRIALS) {
       finishTest();
@@ -173,6 +177,7 @@ export default function TaskSwitchTest({ onComplete }) {
   if (phase === "running") {
     return (
       <div style={{ textAlign: "center" }}>
+        <p>Deneme {trialsDone + 1} / {TOTAL_TRIALS}</p>
         <p data-testid="rule-cue">
           {currentRule
             ? <>Kural: <strong>{currentRule === "color" ? "RENK" : "ŞEKİL"}</strong></>

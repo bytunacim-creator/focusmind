@@ -24,9 +24,12 @@ function randomStimulusType() {
   return Math.random() < GO_PROBABILITY ? "go" : "no_go";
 }
 
+const TOTAL_TRIALS = N_PRACTICE + N_TRIALS;
+
 export default function AttentionTest({ onComplete }) {
   const [phase, setPhase] = useState("instructions"); // instructions | running | done
   const [stimulus, setStimulus] = useState(null); // "go" | "no_go" | null
+  const [trialsDone, setTrialsDone] = useState(0);
   const trialsRef = useRef([]);
   const trialIndexRef = useRef(0);
   const stimulusOnsetRef = useRef(null);
@@ -91,6 +94,7 @@ export default function AttentionTest({ onComplete }) {
 
     setStimulus(null);
     trialIndexRef.current += 1;
+    setTrialsDone(trialIndexRef.current);
 
     if (trialIndexRef.current >= N_PRACTICE + N_TRIALS) {
       finishTest();
@@ -140,23 +144,26 @@ export default function AttentionTest({ onComplete }) {
 
   if (phase === "running") {
     return (
-      <div
-        onClick={handleResponse}
-        style={{ height: 300, display: "flex", alignItems: "center", justifyContent: "center" }}
-      >
-        {stimulus === "go" && (
-          <div
-            data-testid="go-stimulus"
-            style={{ width: 80, height: 80, borderRadius: "50%", background: "#16a34a" }}
-          />
-        )}
-        {stimulus === "no_go" && (
-          <div
-            data-testid="no-go-stimulus"
-            style={{ width: 80, height: 80, background: "#dc2626" }}
-          />
-        )}
-        {stimulus === null && <p>Hazır olun...</p>}
+      <div>
+        <p>Deneme {trialsDone + 1} / {TOTAL_TRIALS}</p>
+        <div
+          onClick={handleResponse}
+          style={{ height: 300, display: "flex", alignItems: "center", justifyContent: "center" }}
+        >
+          {stimulus === "go" && (
+            <div
+              data-testid="go-stimulus"
+              style={{ width: 80, height: 80, borderRadius: "50%", background: "#16a34a" }}
+            />
+          )}
+          {stimulus === "no_go" && (
+            <div
+              data-testid="no-go-stimulus"
+              style={{ width: 80, height: 80, background: "#dc2626" }}
+            />
+          )}
+          {stimulus === null && <p>Hazır olun...</p>}
+        </div>
       </div>
     );
   }
